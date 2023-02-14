@@ -4,7 +4,6 @@
     <div class="btn">
 
       <el-popover
-        v-model="visible"
         placement="bottom"
         title=""
         width="200"
@@ -13,6 +12,10 @@
       >
         <el-button slot="reference" @click="ShowPopup()">获取一个uid链接</el-button>
       </el-popover>
+
+      <div>
+        <p>{{ contentText }}</p>
+      </div>
 
     </div>
 
@@ -26,9 +29,7 @@ import { getIdledUids, getOneUid, getUsedUids } from '@/api/data-borad'
 export default {
   data() {
     return {
-      visible: false,
       contentText: '',
-      visible: false,
       value: '',
       name: '',
       idleVal: 0,
@@ -39,21 +40,29 @@ export default {
     this.drawChart()
     // 获取闲置的uid数量
     getIdledUids().then(function(value) {
-      this.idleVal = value.data.idle
+      this.idleVal = parseInt(value.data.uid)
+      // console.log(value)
+    }, function(error) {
+      alert('获取uid未使用量失败')
     })
     // 获取使用中的uid数量
     getUsedUids().then(function(value) {
-      this.usedVal = value.data.used
+      this.usedVal = parseInt(value.data.uid)
+    }, function(error) {
+      alert('获取uid使用量失败')
     })
   },
   methods: {
-
     // 获取一个uid链接
     ShowPopup() {
-      this.visible = !this.visible
+      // 创建that替代this
+      const that = this
       getOneUid().then(function(value) {
         console.log(value)
-        this.contentText = 'http://106.55.181.157/#/' + value.data.uid
+        // return value.data.uid;
+        that.contentText = 'http://106.55.181.157/#/' + value.data.uid
+      }, function(error) {
+        alert('错误，请重试')
       })
     },
     drawChart() {
