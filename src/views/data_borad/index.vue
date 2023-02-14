@@ -14,7 +14,7 @@
       </el-popover>
 
       <div>
-        <p>{{contentText}}</p>
+        <p>{{ contentText }}</p>
       </div>
 
     </div>
@@ -33,39 +33,37 @@ export default {
       value: '',
       name: '',
       idleVal: 0,
-      usedVal: 0,
+      usedVal: 0
     }
   },
   mounted() {
     this.drawChart()
     // 获取闲置的uid数量
     getIdledUids().then(function(value) {
-      this.idleVal = parseInt(value.data.uid);
+      this.idleVal = parseInt(value.data.uid)
       // console.log(value)
-    }, function (error){
-      alert("获取uid未使用量失败")
+    }, function(error) {
+      alert('获取uid未使用量失败')
     })
     // 获取使用中的uid数量
     getUsedUids().then(function(value) {
-      this.usedVal = parseInt(value.data.uid);
-    }, function (error){
-      alert("获取uid使用量失败")
+      this.usedVal = parseInt(value.data.uid)
+    }, function(error) {
+      alert('获取uid使用量失败')
     })
   },
   methods: {
     // 获取一个uid链接
     ShowPopup() {
       // 创建that替代this
-      const that = this;
+      const that = this
       getOneUid().then(function(value) {
         console.log(value)
         // return value.data.uid;
-        that.contentText = 'http://106.55.181.157/#/' + value.data.uid;
-
-      },function (error){
-        alert("错误，请重试")
+        that.contentText = 'http://106.55.181.157/#/' + value.data.uid
+      }, function(error) {
+        alert('错误，请重试')
       })
-
     },
     drawChart() {
       // 基于准备好的dom，初始化echarts实例  这个和上面的main对应
